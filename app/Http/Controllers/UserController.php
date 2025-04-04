@@ -19,6 +19,9 @@ class UserController extends Controller
     public function LoginPage(Request $request){
         return Inertia::render('LoginPage');
     }//end method
+    public function updatePage(Request $request){
+        return Inertia::render('ProfilePage');
+    }//end method
 
     public function RegistrationPage(Request $request){
         return Inertia::render('RegistrationPage');
@@ -251,4 +254,5 @@ class UserController extends Controller
         $data = ['message'=> 'Profile update successfully','status'=>true, 'error'=>'' ];
         return redirect()->back()->with($data);
     }
+    
 }

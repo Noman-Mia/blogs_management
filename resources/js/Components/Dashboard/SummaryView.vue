@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div class="container-fluid">
         <div class="row">
             <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 animated fadeIn p-2">
@@ -8,14 +8,14 @@
                             <div class="col-9 col-lg-8 col-md-8 col-sm-9">
                                 <div>
                                     <h5 class="mb-0 text-capitalize font-weight-bold">
-                                        <span id="product">{{ cummary['product'] }}</span>
+                                        <span id="product">{{ summary['product'] }}</span>
                                     </h5>
                                     <p class="mb-0 text-sm">Product</p>
                                 </div>
                             </div>
                             <div class="col-3 col-lg-4 col-md-4 col-sm-3 text-end">
                                 <div class="icon icon-shape bg-success shadow-sm float-end rounded-3">
-                                    <img alt="icon" class="w-100" :src="icon" />
+                                    <img alt="product icon" class="w-100" :src="icon" />
                                 </div>
                             </div>
                         </div>
@@ -30,14 +30,14 @@
                             <div class="col-9 col-lg-8 col-md-8 col-sm-9">
                                 <div>
                                     <h5 class="mb-0 text-capitalize font-weight-bold">
-                                        <span id="product">{{ cummary['category'] }}</span>
+                                        <span id="product">{{ summary['category'] }}</span>
                                     </h5>
                                     <p class="mb-0 text-sm">Category</p>
                                 </div>
                             </div>
                             <div class="col-3 col-lg-4 col-md-4 col-sm-3 text-end">
                                 <div class="icon icon-shape bg-success shadow-sm float-end rounded-3">
-                                    <img alt="icon" class="w-100" :src="icon" />
+                                    <img alt="category icon" class="w-100" :src="icon" />
                                 </div>
                             </div>
                         </div>
@@ -52,14 +52,14 @@
                             <div class="col-9 col-lg-8 col-md-8 col-sm-9">
                                 <div>
                                     <h5 class="mb-0 text-capitalize font-weight-bold">
-                                        <span id="product">{{ cummary['customer'] }}</span>
+                                        <span id="product">{{ summary['customer'] }}</span>
                                     </h5>
                                     <p class="mb-0 text-sm">Customer</p>
                                 </div>
                             </div>
                             <div class="col-3 col-lg-4 col-md-4 col-sm-3 text-end">
                                 <div class="icon icon-shape bg-success shadow-sm float-end rounded-3">
-                                    <img alt="icon" class="w-100" :src="icon" />
+                                    <img alt="customer icon" class="w-100" :src="icon" />
                                 </div>
                             </div>
                         </div>
@@ -74,14 +74,14 @@
                             <div class="col-9 col-lg-8 col-md-8 col-sm-9">
                                 <div>
                                     <h5 class="mb-0 text-capitalize font-weight-bold">
-                                        <span id="product">{{ cummary['invoice'] }}</span>
+                                        <span id="product">{{ summary['invoice'] }}</span>
                                     </h5>
                                     <p class="mb-0 text-sm">Invoice</p>
                                 </div>
                             </div>
                             <div class="col-3 col-lg-4 col-md-4 col-sm-3 text-end">
                                 <div class="icon icon-shape bg-success shadow-sm float-end rounded-3">
-                                    <img alt="icon" class="w-100" :src="icon" />
+                                    <img alt="invoice icon" class="w-100" :src="icon" />
                                 </div>
                             </div>
                         </div>
@@ -96,14 +96,14 @@
                             <div class="col-9 col-lg-8 col-md-8 col-sm-9">
                                 <div>
                                     <h5 class="mb-0 text-capitalize font-weight-bold">
-                                        $ <span id="product">{{ cummary['total'] }}</span>
+                                        $ <span id="product">{{ summary['total'] }}</span>
                                     </h5>
                                     <p class="mb-0 text-sm">Total Sale</p>
                                 </div>
                             </div>
                             <div class="col-3 col-lg-4 col-md-4 col-sm-3 text-end">
                                 <div class="icon icon-shape bg-success shadow-sm float-end rounded-3">
-                                    <img alt="icon" class="w-100" :src="icon" />
+                                    <img alt="total sale icon" class="w-100" :src="icon" />
                                 </div>
                             </div>
                         </div>
@@ -111,6 +111,7 @@
                 </div>
             </div>
 
+            
             <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 animated fadeIn p-2">
                 <div class="card card-plain h-100 bg-white">
                     <div class="p-3">
@@ -118,14 +119,14 @@
                             <div class="col-9 col-lg-8 col-md-8 col-sm-9">
                                 <div>
                                     <h5 class="mb-0 text-capitalize font-weight-bold">
-                                        $ <span>{{ cummary['vat'] }}</span>
+                                        $ <span>{{ summary['vat'] }}</span>
                                     </h5>
                                     <p class="mb-0 text-sm">Vat Collection</p>
                                 </div>
                             </div>
                             <div class="col-3 col-lg-4 col-md-4 col-sm-3 text-end">
                                 <div class="icon icon-shape bg-success shadow-sm float-end rounded-3">
-                                    <img alt="icon" class="w-100" :src="icon" />
+                                    <img alt="vat collection icon" class="w-100" :src="icon" />
                                 </div>
                             </div>
                         </div>
@@ -140,14 +141,14 @@
                             <div class="col-9 col-lg-8 col-md-8 col-sm-9">
                                 <div>
                                     <h5 class="mb-0 text-capitalize font-weight-bold">
-                                        $ <span>{{ cummary['payable'] }}</span>
+                                        $ <span>{{ summary['payable'] }}</span>
                                     </h5>
                                     <p class="mb-0 text-sm">Total Payable</p>
                                 </div>
                             </div>
                             <div class="col-3 col-lg-4 col-md-4 col-sm-3 text-end">
                                 <div class="icon icon-shape bg-success shadow-sm float-end rounded-3">
-                                    <img alt="icon" class="w-100" :src="icon" />
+                                    <img alt="payable icon" class="w-100" :src="icon" />
                                 </div>
                             </div>
                         </div>
@@ -155,6 +156,7 @@
                 </div>
             </div>
 
+       
             <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 animated fadeIn p-2">
                 <div class="card card-plain h-100 bg-white">
                     <div class="p-3">
@@ -162,14 +164,14 @@
                             <div class="col-9 col-lg-8 col-md-8 col-sm-9">
                                 <div>
                                     <h5 class="mb-0 text-capitalize font-weight-bold">
-                                        $ <span>{{ cummary['discount'] }}</span>
+                                        $ <span>{{ summary['discount'] }}</span>
                                     </h5>
                                     <p class="mb-0 text-sm">Total Discount</p>
                                 </div>
                             </div>
                             <div class="col-3 col-lg-4 col-md-4 col-sm-3 text-end">
                                 <div class="icon icon-shape bg-success shadow-sm float-end rounded-3">
-                                    <img alt="icon" class="w-100" :src="icon" />
+                                    <img alt="discount icon" class="w-100" :src="icon" />
                                 </div>
                             </div>
                         </div>
@@ -179,4 +181,12 @@
 
         </div>
     </div>
-</template>
+</template> -->
+
+<script setup>
+  import icon from '@/Assets/img/icon.svg'; 
+
+  import { usePage } from '@inertiajs/vue3'; 
+  const page = usePage();
+  const summary = page.props.list; 
+</script>

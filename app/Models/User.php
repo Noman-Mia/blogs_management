@@ -27,6 +27,7 @@ class User extends Authenticatable
         'otp',
         'password',
         'mobile',
+        'profile_pic',
     ];
 
     /**
@@ -51,23 +52,34 @@ class User extends Authenticatable
             // 'password' => 'hashed',
         ];
     }
-    public function categories()
-    {
-        return $this->hasMany(Category::class);
-    }//end method
-
-    public function products()
-    {
-        return $this->hasMany(Product::class);
-    }//end method
-
-    public function customers()
-    {
-        return $this->hasMany(Customer::class);
-    }//end method
-
-    public function invoices()
-    {
-        return $this->hasMany(Invoice::class);
-    }//end method
-}
+     // Relationship to posts
+   
+     public function posts()
+     {
+         return $this->hasMany(Post::class);
+     }
+ 
+     // Relationship to comments
+     public function comments()
+     {
+         return $this->hasMany(Comment::class);
+     }
+ 
+     // Relationship to likes
+     public function likes()
+     {
+         return $this->hasMany(Like::class);
+     }
+ 
+     // Relationship to bookmarks
+     public function bookmarks()
+     {
+         return $this->hasMany(Bookmark::class);
+     }
+ 
+     // Relationship to notifications
+     public function notifications()
+     {
+         return $this->hasMany(Notification::class);
+     }
+ }

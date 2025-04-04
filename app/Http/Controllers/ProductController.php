@@ -6,49 +6,48 @@ use Exception;
 use Inertia\Inertia;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function CreateProduct(Request $request)
+    public function UserRegistration(Request $request)
     {
-        $user_id = $request->header('id');
-
-        $request->validate([
-            'name' => 'required',
-            'price' => 'required',
-            'unit' => 'required',
-            'category_id' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-        ]);
-
-        $data = [
-            'name' => $request->name,
-            'price' => $request->price,
-            'unit' => $request->unit,
-            'category_id' => $request->category_id,
-            'user_id' => $user_id
-        ];
-
-        if($request->hasFile('image')){
-            $image = $request->file('image');
-
-            $fileName = time().'.'.$image->getClientOriginalExtension();
-            $filePath = 'uploads/'.$fileName;
-
-            $image->move(public_path('uploads'), $fileName);
-            $data['image'] = $filePath;
+        try {
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required',
+                'mobile' => 'required',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048', // added image validation
+            ]);
+    
+            $user = User::create([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'password' => $request->input('password'),
+                'mobile' => $request->input('mobile'),
+            ]);
+    
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+    
+                $fileName = time() . '.' . $image->getClientOriginalExtension();
+                $filePath = 'uploads/' . $fileName;
+    
+                $image->move(public_path('uploads'), $fileName);
+                $user->image = $filePath; // Saving the file path to the user's record
+                $user->save();
+            }
+    
+            $data = ['message' => 'User created successfully', 'status' => true, 'error' => ''];
+            return redirect('/login')->with($data);
+        } catch (Exception $e) {
+            $data = ['message' => 'Something went wrong', 'status' => false, 'error' => ''];
+            return redirect('/registration')->with($data);
         }
-
-        Product::create($data);
-
-        // return response()->json([
-        //     'status' => 'success',
-        //     'message' => 'Product created successfully'
-        // ]);
-        $data = ['message'=>'Product created successfully','status'=>true,'error'=>''];
-        return redirect('/ProductPage')->with($data);
-    }//end method
+    }
+    
 
     public function ProductPage(Request $request){
         $user_id = $request->header('id');

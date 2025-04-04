@@ -11,22 +11,46 @@
                                 <div class="row m-0 p-0">
                                     <div class="col-md-4 p-2">
                                         <label>Name</label>
-                                        <input id="name" v-model="form.name" placeholder="First Name" class="form-control" type="text" />
+                                        <input
+                                            id="name"
+                                            v-model="form.name"
+                                            placeholder="First Name"
+                                            class="form-control"
+                                            type="text"
+                                        />
                                     </div>
 
                                     <div class="col-md-4 p-2">
                                         <label>Email Address</label>
-                                        <input id="email" disabled v-model="form.email" placeholder="User Email" class="form-control" type="email" />
+                                        <input
+                                            id="email"
+                                            disabled
+                                            v-model="form.email"
+                                            placeholder="User Email"
+                                            class="form-control"
+                                            type="email"
+                                        />
                                     </div>
 
                                     <div class="col-md-4 p-2">
                                         <label>Mobile Number</label>
-                                        <input id="mobile" v-model="form.mobile" placeholder="Mobile" class="form-control" type="mobile" />
+                                        <input
+                                            id="mobile"
+                                            v-model="form.mobile"
+                                            placeholder="Mobile"
+                                            class="form-control"
+                                            type="mobile"
+                                        />
                                     </div>
                                 </div>
-                                <div class="row m-0 p-0">
+                                <div class="flex row m-0 p-0">
                                     <div class="col-md-4 p-2">
-                                        <button type="submit" class="btn mt-3 w-100  btn-success">Update</button>
+                                        <button
+                                            type="submit"
+                                            class="btn mt-3 w-100 btn-success"
+                                        >
+                                            Update
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -60,12 +84,12 @@ function submit() {
         form.post("/user-update", {
             onSuccess: () => {
                 if (page.props.flash.status === true) {
-                    router.get('/ProfilePage');
+                    router.get("/ProfilePage");
                     toaster.success(page.props.flash.message);
                 } else {
                     toaster.error(page.props.flash.message);
                 }
-            }
+            },
         });
     }
 }

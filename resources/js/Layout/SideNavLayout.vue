@@ -1,68 +1,204 @@
 <template>
     <div>
-        <nav id="topNav" class="navbar fixed-top bg-success top-navbar">
-            <div class="container-fluid">
-                <a id="MenuBar" @click="NavOpenClose" class="icon-nav mx-0 my-1 h5">
-                    <i class="fa text-white fa-bars"></i>
-                </a>
-            </div>
-        </nav>
-        <div id="sideNav" class="side-nav-open">
-            <div class="side-nav-top text-center">
-                <img alt="" class="side-nav-logo" src="../Assets/img/logo.svg" />
-            </div>
-
-            <Link href="/DashboardPage" class="side-bar-item">
-                <span class="side-bar-item-icon"><i class="fa fa-tachometer-alt text-green" /></span>
-                <span class="side-bar-item-caption">Dashboard</span>
-            </Link>
-
-            <Link href="/CategoryPage" class="side-bar-item">
-                <span class="side-bar-item-icon"><i class="fa fa-th-list text-green" /></span>
-                <span class="side-bar-item-caption">Category</span>
-            </Link>
-
-            <Link href="/CustomerPage" class="side-bar-item">
-                <span class="side-bar-item-icon"><i class="fa fa-users text-green" /></span>
-                <span class="side-bar-item-caption">Customer</span>
-            </Link>
-
-            <Link href="/ProductPage" class="side-bar-item">
-                <span class="side-bar-item-icon"><i class="fa fa-box text-green" /></span>
-                <span class="side-bar-item-caption">Product</span>
-            </Link>
-
-            <Link href="/create-sale" class="side-bar-item">
-                <span class="side-bar-item-icon"><i class="fa fa-shopping-cart text-green" /></span>
-                <span class="side-bar-item-caption">Create Sale</span>
-            </Link>
-
-            <Link href="/InvoiceListPage" class="side-bar-item">
-                <span class="side-bar-item-icon"><i class="fa fa-file-invoice-dollar text-green" /></span>
-                <span class="side-bar-item-caption">Invoice</span>
-            </Link>
-
-            <Link href="/ProfilePage" class="side-bar-item">
-                <span class="side-bar-item-icon"><i class="fa fa-user-circle text-green" /></span>
-                <span class="side-bar-item-caption">Profile</span>
-            </Link>
-
-            <Link href="/user-logout" class="side-bar-item">
-                <span class="side-bar-item-icon"><i class="fa fa-sign-out-alt text-green" /></span>
-                <span class="side-bar-item-caption">Logout</span>
-            </Link>
-
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+          <!-- Left-aligned Links -->
+          <Link href="/" class="navbar-brand">MyBlog</Link>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <Link href="/CategoryPage" class="nav-link">Create Blog</Link>
+              </li>
+              <li class="nav-item">
+                <Link href="/CustomerPage" class="nav-link">Add to cart</Link>
+              </li>
+          
+            </ul>
+            
+            <!-- Right-aligned Links -->
+            <ul class="navbar-nav">
+              <template v-if="userProfilePic">
+                <li class="nav-item">
+                  <Link href="/ProfilePage" class="nav-link">
+                    <!-- Profile Picture -->
+                    <img 
+                      v-if="userProfilePic" 
+                      :src="`/storage/${userProfilePic}`" 
+                      alt="" 
+                      class="rounded-circle" 
+                      width="30" 
+                      height="30"
+                    />
+                    <img 
+                      v-else 
+                      src="/images/default-avatar.png" 
+                      alt="Default Profile Picture" 
+                      class="rounded-circle" 
+                      width="30" 
+                      height="30"
+                    />
+                  </Link>
+                </li>
+                <li class="nav-item">
+                  <Link href="/user-logout" class="nav-link">Logout</Link>
+                </li>
+              </template>
+              <template v-else>
+                <li class="nav-item">
+                  <Link href="/login" class="nav-link">Login</Link>
+                </li>
+                <li class="nav-item">
+                  <Link href="/register" class="nav-link">Register</Link>
+                </li>
+              </template>
+            </ul>
+          </div>
         </div>
-        <div id="content" class="content">
-            <div class="container-fluid">
-                <main>
-                    <slot></slot>
-                </main>
-            </div>
+      </nav>
+  
+      <!-- About Blog Section -->
+      <section id="about-blog" class="bg-light py-5">
+        <div class="container">
+          <h2 class="text-dark">About My Blog</h2>
+          <p class="text-muted">
+            Welcome to MyBlog, a platform where you can share your thoughts, ideas, and experiences with the world. Whether you're passionate about technology, lifestyle, or any other topic, MyBlog offers a space to express yourself and connect with others. 
+            <br><br>
+            Explore different categories, create your own posts, interact with fellow bloggers through comments and likes, and enjoy a rich community experience. Join us and be part of this vibrant blogging community.
+          </p>
         </div>
+      </section>
+      
+      <!-- Category Section -->
+      <section id="category" class="py-5">
+        <div class="container">
+          <h2 class="text-primary">Blog Category</h2>
+          <p class="text-muted">
+            Discover posts from various categories. Whether you are interested in tech, lifestyle, or something else, explore different topics to find something that interests you.
+          </p>
+          <!-- Category items -->
+          <div class="row">
+            <div class="col-md-4 mb-4">
+              <div class="card">
+                <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Category Image">
+                <div class="card-body">
+                  <h5 class="card-title text-dark">Tech</h5>
+                  <p class="card-text text-muted">Explore the latest in technology, gadgets, software, and more.</p>
+                  <Link  class="btn btn-primary">View Posts</Link>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+              <div class="card">
+                <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Category Image">
+                <div class="card-body">
+                  <h5 class="card-title text-dark">Lifestyle</h5>
+                  <p class="card-text text-muted">Get inspiration on living a balanced, healthy lifestyle.</p>
+                  <Link href="/category/lifestyle" class="btn btn-primary">View Posts</Link>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+              <div class="card">
+                <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Category Image">
+                <div class="card-body">
+                  <h5 class="card-title text-dark">Travel</h5>
+                  <p class="card-text text-muted">Travel stories, guides, and tips from all around the world.</p>
+                  <Link href="/category/travel" class="btn btn-primary">View Posts</Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+  
+      <!-- Customer Section -->
+      <section id="customer" class="bg-light py-5">
+        <div class="container">
+          <h2 class="text-primary">Reaction from bloggers</h2>
+          <p class="text-muted">
+            Learn about our loyal customers, their experiences, and why they love our platform. 
+          </p>
+          <div class="row">
+            <div class="col-md-4 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title text-dark">John Doe</h5>
+                  <p class="card-text text-muted">"MyBlog has been a great platform to share my thoughts and connect with people around the world."</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title text-dark">Jane Smith</h5>
+                  <p class="card-text text-muted">"I love how easy it is to interact with other bloggers and explore different categories."</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title text-dark">Jane Smith</h5>
+                  <p class="card-text text-muted">"I love how easy it is to interact with other bloggers and explore different categories."</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+  
+  
+      <!-- Content Section -->
+      <div id="content" class="content">
+        <div class="container-fluid">
+          <main>
+            <slot></slot>
+          </main>
+        </div>
+      </div>
     </div>
-
-</template>
-<script setup>
-import { Link } from '@inertiajs/vue3'
-</script>
+  </template>
+  
+  <script setup>
+  import { Link } from '@inertiajs/vue3'
+  
+  // Assuming that you are passing user profile info from the backend
+  const userProfilePic = '{{ auth()->user()->profile_picture ?? null }}'; // Laravel example to pass profile picture
+  </script>
+  
+  <style scoped>
+  #about-blog {
+    background-color: #f8f9fa;
+    padding: 30px 0;
+  }
+  
+  #category, #customer, #create-sale, #invoice {
+    padding: 30px 0;
+  }
+  
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .card-body {
+    padding: 15px;
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    color: #555;
+  }
+  </style>
+  
