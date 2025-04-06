@@ -1,4 +1,5 @@
 <template>
+  
     <div>
       <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -11,10 +12,13 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
               <li class="nav-item">
-                <Link href="/CategoryPage" class="nav-link">Create Blog</Link>
+                <Link href="/CreateBlog" class="nav-link">Create Blog</Link>
               </li>
               <li class="nav-item">
-                <Link href="/CustomerPage" class="nav-link">Add to cart</Link>
+                <Link href="/ShowBlogs" class="nav-link">Blogs</Link>
+              </li>
+              <li class="nav-item">
+                <Link href="/Bookmarks" class="nav-link">Bookmarks</Link>
               </li>
           
             </ul>
@@ -30,8 +34,8 @@
                       :src="`/storage/${userProfilePic}`" 
                       alt="" 
                       class="rounded-circle" 
-                      width="30" 
-                      height="30"
+                      width="20" 
+                      height="20"
                     />
                     <img 
                       v-else 
@@ -83,7 +87,7 @@
           <div class="row">
             <div class="col-md-4 mb-4">
               <div class="card">
-                <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Category Image">
+                <img src="https://i.ibb.co.com/fV6vmH57/t.jpg" class="card-img-top" alt="Category Image">
                 <div class="card-body">
                   <h5 class="card-title text-dark">Tech</h5>
                   <p class="card-text text-muted">Explore the latest in technology, gadgets, software, and more.</p>
@@ -94,7 +98,7 @@
             
             <div class="col-md-4 mb-4">
               <div class="card">
-                <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Category Image">
+                <img src="https://i.ibb.co.com/fV6vmH57/t.jpg" class="card-img-top" alt="Category Image">
                 <div class="card-body">
                   <h5 class="card-title text-dark">Lifestyle</h5>
                   <p class="card-text text-muted">Get inspiration on living a balanced, healthy lifestyle.</p>
@@ -105,7 +109,7 @@
             
             <div class="col-md-4 mb-4">
               <div class="card">
-                <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Category Image">
+                <img src="https://i.ibb.co.com/fV6vmH57/t.jpg" class="card-img-top" alt="Category Image">
                 <div class="card-body">
                   <h5 class="card-title text-dark">Travel</h5>
                   <p class="card-text text-muted">Travel stories, guides, and tips from all around the world.</p>
@@ -162,11 +166,14 @@
           </main>
         </div>
       </div>
+      
     </div>
+   
   </template>
   
   <script setup>
   import { Link } from '@inertiajs/vue3'
+ 
   
   // Assuming that you are passing user profile info from the backend
   const userProfilePic = '{{ auth()->user()->profile_picture ?? null }}'; // Laravel example to pass profile picture
@@ -200,5 +207,6 @@
     font-size: 1rem;
     color: #555;
   }
+  
   </style>
   
