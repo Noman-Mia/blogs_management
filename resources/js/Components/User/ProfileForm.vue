@@ -47,7 +47,7 @@
                                     <div class="col-md-4 p-2">
                                         <button
                                             type="submit"
-                                            class="btn mt-3 w-100 btn-success"
+                                            class="btn mt-3 w-100 btn-primary"
                                         >
                                             Update
                                         </button>

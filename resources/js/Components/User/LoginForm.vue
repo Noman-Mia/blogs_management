@@ -11,7 +11,7 @@
                             <br/>
                             <input id="password" v-model="form.password" placeholder="User Password" class="form-control" type="password"/>
                             <br/>
-                            <button type="submit" class="btn w-100 btn-success">Login</button>
+                            <button type="submit" class="btn w-100 btn-primary">Login</button>
                             <hr/>
                             <div class="float-end mt-3">
                             <span>

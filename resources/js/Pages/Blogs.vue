@@ -1,4 +1,5 @@
 <template>
+    
     <div class="container">
         <div
             v-for="post in posts"
@@ -72,17 +73,17 @@
 <script setup>
 import { ref } from "vue";
 import { router } from "@inertiajs/vue3";
-function bookmarkPost(post) {
-    router.post('/bookmarks', { post_id: post.id }, {
-        preserveScroll: true,
-        onSuccess: () => {
-            alert('Bookmarked!');
-        },
-        onError: () => {
-            alert('Failed to bookmark!');
-        }
-    });
-}
+// function bookmarkPost(post) {
+//     router.post('/bookmarks', { post_id: post.id }, {
+//         preserveScroll: true,
+//         onSuccess: () => {
+//             alert('Bookmarked!');
+//         },
+//         onError: () => {
+//             alert('Failed to bookmark!');
+//         }
+//     });
+// }
 // Props
 defineProps({
     posts: Array,
@@ -101,6 +102,11 @@ function deletePost(postId) {
         });
     }
 }
+
+function editPost(post) {
+  router.get(`/edit/${post.id}`);
+}
+
 </script>
 
 <style scoped>

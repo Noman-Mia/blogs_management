@@ -18,8 +18,6 @@ Route::post('/CreateBlog', [CreateBlogController::class, 'store']); // Form subm
 Route::get('/ShowBlogs', [HomeController::class, 'ShowBlogs'])->name('ShowBlogs'); // Form
 Route::get('/blogs', [CreateBlogController::class, 'index'])->name('blogs.index');
 
-Route::put('/posts/{id}', [CreateBlogController::class, 'update']);
-
 
 Route::delete('/delete/{id}', [CreateBlogController::class, 'delete'])
 ->name('posts.destroy');
@@ -61,8 +59,11 @@ Route::middleware(SessionAuthenticate::class)->group(function(){
     Route::get('/user-from', [UserController::class, 'UserFrom']);
     Route::post('/user-update', [UserController::class, 'UserUpdate']);
 
-    // Route::post('/bookmarks', [BookmarkController::class, 'store']);
-    // Route::get('/bookmarks', [BookmarkController::class, 'index']);
+Route::get('/edit/{id}', [CreateBlogController::class, 'edit'])->name('edit.blog');
+Route::put('/update/{id}', [CreateBlogController::class, 'update'])->name('update.blog');
+//   Route::post('/bookmarks', [BookmarkController::class, 'store']);
+// Route::get('/bookmarks', [BookmarkController::class, 'index']);
+    
 });
 
 //Pages all routes

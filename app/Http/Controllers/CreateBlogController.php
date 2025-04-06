@@ -59,5 +59,52 @@ class CreateBlogController extends Controller
     return redirect()->route('CreateBlog')->with('success', 'Post deleted successfully!');
 }
 
+
+
+//update
+public function update(Request $request, $id)
+{
+    $user_id = $request->header('id');
+
+    if (!$user_id) {
+        return response()->json(['message' => 'User not authenticated'], 401);
+    }
+
+    $post = Post::find($id);
+
+    if (!$post) {
+        return redirect()->back()->with('error', 'Post not found.');
+    }
+
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'required|string',
+        'visibility' => 'required|in:public,private',
+        'image' => 'nullable|image|max:2048',
+    ]);
+
+    // Optional: Replace image if new one is uploaded
+    if ($request->hasFile('image')) {
+        // Delete old image
+        if ($post->image && Storage::disk('public')->exists($post->image)) {
+            Storage::disk('public')->delete($post->image);
+        }
+
+        // Store new image
+        $validated['image'] = $request->file('image')->store('blogs', 'public');
+    }
+
+    $post->update($validated);
+
+    return redirect()->route('CreateBlog')->with('success', 'Post updated successfully!');
+}
+
+
+public function edit($id)
+{
+    $post = Post::findOrFail($id);
+    return Inertia::render('EditBlog', ['post' => $post]);
+}
+
     
 }
