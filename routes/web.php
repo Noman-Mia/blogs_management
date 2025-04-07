@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CreateBlogController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\LikeController;
 use App\Http\Middleware\SessionAuthenticate;
 
 
@@ -64,6 +65,7 @@ Route::put('/update/{id}', [CreateBlogController::class, 'update'])->name('updat
 //   Route::post('/bookmarks', [BookmarkController::class, 'store']);
 // Route::get('/bookmarks', [BookmarkController::class, 'index']);
     
+Route::post('/posts/{postId}/like', [LikeController::class, 'store'])->name('posts.like');
 });
 
 //Pages all routes
