@@ -11,7 +11,7 @@
                             <input id="email" v-model="form.email" placeholder="User Email" class="form-control" type="email"/>
                             <br/>
 
-                            <button type="submit" class="btn mt-3 w-100  btn-success">Next</button>
+                            <button type="submit" class="btn mt-3 w-100  btn-primary">Next</button>
                         </div>
                     </form>
                 </div>

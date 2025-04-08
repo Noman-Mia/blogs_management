@@ -34,7 +34,7 @@ class CreateBlogController extends Controller
     
         Post::create($validated);
     
-        return redirect()->route('CreateBlog')->with('success', 'Blog created successfully!');
+        return redirect()->route('ShowBlogs')->with('success', 'Blog created successfully!');
     }
  
 
@@ -56,7 +56,7 @@ class CreateBlogController extends Controller
 
     $post->delete();
 
-    return redirect()->route('CreateBlog')->with('success', 'Post deleted successfully!');
+    return redirect()->route('ShowBlogs')->with('success', 'Post deleted successfully!');
 }
 
 
@@ -96,7 +96,7 @@ public function update(Request $request, $id)
 
     $post->update($validated);
 
-    return redirect()->route('CreateBlog')->with('success', 'Post updated successfully!');
+    return redirect()->route('ShowBlogs')->with('success', 'Post updated successfully!');
 }
 
 

@@ -13,7 +13,7 @@ use App\Http\Middleware\SessionAuthenticate;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/profile', [HomeController::class, 'ProfilePage'])->name('home');
+Route::get('/blogs', [HomeController::class, 'blogs'])->name('home');
 
 Route::post('/CreateBlog', [CreateBlogController::class, 'store']); // Form submit
 Route::get('/ShowBlogs', [HomeController::class, 'ShowBlogs'])->name('ShowBlogs'); // Form

@@ -55,19 +55,11 @@ class UserController extends Controller
                 'mobile' => $request->input('mobile'),
             ]);
 
-            // return response()->json([
-            //     'status' => 'success',
-            //     'message' => 'User created successfully',
-            //     'data' => $user
-            // ]);
+            
 
             $data = ['message'=>'User created successfully','status'=>true,'error'=>''];
             return redirect('/login')->with($data);
         }catch(Exception $e){
-            // return response()->json([
-            //     'status' => 'fail',
-            //     'message' => $e->getMessage()
-            // ]);
             $data = ['message'=>'Something went wrong','status'=>false,'error'=>''];
             return redirect('/registration')->with($data);
         }
@@ -77,14 +69,6 @@ class UserController extends Controller
         $count = User::where('email', $request->input('email'))->where('password', $request->input('password'))->select('id')->first();
 
         if($count !== null){
-            // User login -> JWT token issue
-            // $token = JWTToken::CreateToken($request->input('email'),$count->id);
-
-            // return response()->json([
-            //     'status' => 'success',
-            //     'message' => 'User login successfully',
-            //     'token' => $token
-            // ],200)->cookie('token', $token, 60 * 24 * 30);
 
             $email = $request->input('email');
             $user_id = $count->id;
@@ -95,12 +79,7 @@ class UserController extends Controller
             $data = ['message'=>'User login successfully','status'=>true,'error'=>''];
             return redirect('/DashboardPage')->with($data);
         }else{
-            // return response()->json([
-            //     'status' => 'failed',
-            //     'message' => 'unauthorized'
-            // ],200);
-
-            $data = ['message'=>'Login faild','status'=>false,'error'=>''];
+            $data = ['message'=>'Login field','status'=>false,'error'=>''];
             return redirect('/login')->with($data);
         }
 
@@ -110,34 +89,10 @@ class UserController extends Controller
     public function DashboardPage(Request $request){
         $user_id = request()->header('id');
 
-        $product = Product::where('user_id', $user_id)->count();
-        $category = Category::where('user_id', $user_id)->count();
-        $customer = Customer::where('user_id', $user_id)->count();
-        $invoice = Invoice::where('user_id', $user_id)->count();
-        $total = Invoice::where('user_id', $user_id)->sum('total');
-        $vat = Invoice::where('user_id', $user_id)->sum('vat');
-        $payable = Invoice::where('user_id', $user_id)->sum('payable');
-        $discount = Invoice::where('user_id', $user_id)->sum('discount');
-
-        $data = [
-            'product' => $product,
-            'category' => $category,
-            'customer' => $customer,
-            'invoice' => $invoice,
-            'total' => round($total),
-            'vat' => round($vat),
-            'payable' => round($payable),
-            'discount' => $discount
-        ];
-
-        return Inertia::render('DashboardPage',['list'=>$data]);
+        return Inertia::render('DashboardPage');
     }//end method
 
     public function UserLogout(Request $request){
-        // return response()->json([
-        //     'status' => 'success',
-        //     'message' => 'User logout successfully',
-        // ],200)->cookie('token', '', -1);
 
         $request->session()->forget('email');
         $request->session()->forget('user_id');

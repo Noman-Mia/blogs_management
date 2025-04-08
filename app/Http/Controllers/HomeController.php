@@ -21,9 +21,14 @@ class HomeController extends Controller
         // Fetch all posts
         $posts = Post::all(); 
 
-        return Inertia::render('Blogs', [
+        return Inertia::render('Blogs', props: [
             'posts' => $posts, 
         ]);
+    }
+
+    function blogs()
+    {
+        return Inertia::render('Blogs');
     }
 
 }
