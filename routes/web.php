@@ -62,9 +62,14 @@ Route::middleware(SessionAuthenticate::class)->group(function(){
 
 Route::get('/edit/{id}', [CreateBlogController::class, 'edit'])->name('edit.blog');
 Route::put('/update/{id}', [CreateBlogController::class, 'update'])->name('update.blog');
-//   Route::post('/bookmarks', [BookmarkController::class, 'store']);
-// Route::get('/bookmarks', [BookmarkController::class, 'index']);
-    
+
+//Bookmark all routes
+Route::post('/bookmarks', [BookmarkController::class, 'store']);
+Route::delete('/bookmarks/{post}', [BookmarkController::class, 'destroy']);
+Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks');
+
+
+
 Route::post('/posts/{postId}/like', [LikeController::class, 'store'])->name('posts.like');
 });
 

@@ -181,9 +181,9 @@
       : (post.likes_count || 0) - 1;
   }
   
-  function toggleBookmark(post) {
-    post.isBookmarked = !post.isBookmarked;
-  }
+  // function toggleBookmark(post) {
+  //   post.isBookmarked = !post.isBookmarked;
+  // }
   
   function editPost(post) {
     router.get(`/edit/${post.id}`);
@@ -225,6 +225,30 @@
       post.newComment = '';
     });
   });
+
+
+
+  function toggleBookmark(post) {
+    if (post.isBookmarked) {
+        router.delete(`/bookmarks/${post.id}`, {
+            preserveScroll: true,
+            onSuccess: () => {
+                post.isBookmarked = false;
+                // Emit event to update navbar count
+                window.dispatchEvent(new CustomEvent('bookmarks-updated'));
+            }
+        });
+    } else {
+        router.post('/bookmarks', { post_id: post.id }, {
+            preserveScroll: true,
+            onSuccess: () => {
+                post.isBookmarked = true;
+                // Emit event to update navbar count
+                window.dispatchEvent(new CustomEvent('bookmarks-updated'));
+            }
+        });
+    }
+}
   </script>
   
   <style scoped>

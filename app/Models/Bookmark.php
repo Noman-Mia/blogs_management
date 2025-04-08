@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Bookmark extends Model
 {
     use HasFactory;
-
+    protected $fillable = ['user_id', 'post_id'];
     // Relationship to user (belongs to)
     public function user()
     {
@@ -20,4 +20,8 @@ class Bookmark extends Model
     {
         return $this->belongsTo(Post::class);
     }
+    public function bookmarks()
+{
+    return $this->hasMany(Bookmark::class);
+}
 }

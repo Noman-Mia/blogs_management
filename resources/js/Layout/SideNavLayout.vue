@@ -247,6 +247,7 @@
                 href="/CreateBlog"
                 class="nav-link btn btn-primary btn-lg"
                 style="
+                    margin-top: 5px;
                     background-color: #007bff;
                     min-width: 200px;
                     height: 50px;
