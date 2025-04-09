@@ -12,24 +12,14 @@
         />
       </div>
       <div class="d-flex justify-content-center align-items-center">
-            <Link
-                href="/CreateBlog"
-                class="nav-link btn btn-primary btn-lg"
-                style="
-                    margin-top: 20px;
-                    background-color: #007bff;
-                    min-width: 200px;
-                    height: 50px;
-                    font-size: 1.25rem;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                "
-            >
-                Create Blog
-            </Link>
-        </div>
-
+        <Link
+          href="/CreateBlog"
+          class="nav-link btn btn-primary btn-lg"
+          style="margin-top: 20px; padding-top: 8px; background-color: #007bff; min-width: 200px; height: 50px; font-size: 1.25rem;"
+        >
+          Create Blog
+        </Link>
+      </div>
     </div>
 
     <!-- Display Posts -->
@@ -44,23 +34,14 @@
             <div v-if="post.tags?.length" class="mb-3">
               <p>
                 <strong>Tags: </strong>
-                <span
-                  v-for="tag in post.tags"
-                  :key="tag.id"
-                  class="badge bg-primary me-2"
-                  >{{ tag.name }}</span
-                >
+                <span v-for="tag in post.tags" :key="tag.id" class="badge bg-primary me-2">{{ tag.name }}</span>
               </p>
             </div>
 
             <p><strong>Likes: </strong>{{ post.likes_count || 0 }}</p>
 
             <div v-if="post.image" class="mb-3">
-              <img
-                :src="`/storage/${post.image}`"
-                alt="Post image"
-                class="img-fluid rounded"
-              />
+              <img :src="`/storage/${post.image}`" alt="Post image" class="img-fluid rounded" />
             </div>
           </div>
 
@@ -68,35 +49,23 @@
             <div>
               <button
                 class="btn"
-                :class="{
-                  'btn-outline-primary': !post.isLiked,
-                  'btn-primary': post.isLiked
-                }"
+                :class="{ 'btn-outline-primary': !post.isLiked, 'btn-primary': post.isLiked }"
                 @click="toggleLike(post)"
               >
                 {{ post.isLiked ? 'Unlike' : 'Like' }}
               </button>
 
-              <button
-                class="btn btn-outline-success btn-sm ms-2"
-                @click="toggleBookmark(post)"
-              >
+              <button class="btn btn-outline-success btn-sm ms-2" @click="toggleBookmark(post)">
                 {{ post.isBookmarked ? 'Bookmarked' : 'Bookmark' }}
               </button>
             </div>
 
             <div>
-              <button
-                class="btn btn-outline-warning btn-sm ms-2"
-                @click="editPost(post)"
-              >
+              <button class="btn btn-outline-warning btn-sm ms-2" @click="editPost(post)">
                 Edit
               </button>
 
-              <button
-                class="btn btn-outline-danger btn-sm ms-2"
-                @click="deletePost(post.id)"
-              >
+              <button class="btn btn-outline-danger btn-sm ms-2" @click="deletePost(post.id)">
                 Delete
               </button>
             </div>
@@ -130,9 +99,18 @@
               <h5>Comments:</h5>
               <ul class="list-unstyled">
                 <li v-for="(comment, index) in post.comments" :key="index">
-                  <div class="border p-2 mb-2 rounded">
-                    <strong>{{ comment.author || 'Anonymous' }}:</strong>
-                    <p>{{ comment.text }}</p>
+                  <div class="border p-2 mb-2 rounded d-flex justify-content-between align-items-start">
+                    <div>
+                      <strong>{{ comment.author || 'Anonymous' }}:</strong>
+                      <p>{{ comment.text }}</p>
+                    </div>
+                    <button
+                      class="btn btn-sm btn-outline-danger"
+                      @click="deleteComment(comment, post)"
+                      title="Delete Comment"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </li>
               </ul>
@@ -160,23 +138,17 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { usePage, router } from '@inertiajs/vue3';
-import { Link } from "@inertiajs/vue3";
+import { Link } from '@inertiajs/vue3';
+
 const page = usePage();
 const currentUser = computed(() => page.props.auth?.user || null);
-
-const props = defineProps({
-  posts: Array,
-});
-
+const props = defineProps({ posts: Array });
 const searchQuery = ref('');
 const posts = ref(props.posts);
 
-// ✅ Sort all posts by latest created_at and then filter
 const filteredPosts = computed(() => {
   let list = [...posts.value];
-
   list.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
   if (!searchQuery.value.trim()) return list;
 
   return list.filter((post) =>
@@ -194,9 +166,7 @@ const latestPosts = computed(() => {
 
 function toggleLike(post) {
   post.isLiked = !post.isLiked;
-  post.likes_count = post.isLiked
-    ? (post.likes_count || 0) + 1
-    : (post.likes_count || 0) - 1;
+  post.likes_count = post.isLiked ? (post.likes_count || 0) + 1 : (post.likes_count || 0) - 1;
 }
 
 function toggleBookmark(post) {
@@ -227,8 +197,6 @@ function deletePost(postId) {
   if (confirm('Are you sure you want to delete this post?')) {
     router.delete(`/delete/${postId}`, {
       preserveScroll: true,
-      onSuccess: () => console.log('Post deleted successfully!'),
-      onError: (errors) => console.error('Error deleting post:', errors),
     });
   }
 }
@@ -238,14 +206,37 @@ function toggleCommentInput(post) {
 }
 
 function submitComment(post) {
-  if (post.newComment?.trim()) {
-    const newComment = {
-      author: currentUser.value?.email || 'Anonymous',
-      text: post.newComment,
-    };
-    post.comments.push(newComment);
-    post.newComment = '';
-    post.showCommentInput = false;
+  if (!post.newComment?.trim()) return;
+
+  router.post(`/posts/${post.id}/comments`, {
+    content: post.newComment,
+    parent_id: null,
+  }, {
+    preserveScroll: true,
+    onSuccess: () => {
+      const newComment = {
+        author: currentUser.value?.email || 'Anonymous',
+        text: post.newComment,
+        id: Math.random().toString(36).substring(7)
+      };
+      post.comments.push(newComment);
+      post.newComment = '';
+      post.showCommentInput = false;
+    }
+  });
+}
+
+function deleteComment(comment, post) {
+  if (confirm('Are you sure you want to delete this comment?')) {
+    router.delete(`/comments/${comment.id}`, {
+      preserveScroll: true,
+      onSuccess: () => {
+        post.comments = post.comments.filter((c) => c.id !== comment.id);
+      },
+      onError: (error) => {
+        console.error("Failed to delete comment:", error);
+      }
+    });
   }
 }
 
@@ -266,21 +257,17 @@ onMounted(() => {
   border-radius: 8px;
   overflow: hidden;
 }
-
 .card-body {
   padding: 20px;
 }
-
 .card-footer {
   background-color: #f8f9fa;
 }
-
 input.form-control {
   margin-top: 20px;
   height: 45px;
   font-size: 1.1rem;
 }
-
 img {
   width: 100%;
   max-height: 220px;
@@ -288,7 +275,6 @@ img {
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
 .card-text {
   max-height: 80px;
   overflow: hidden;
@@ -297,28 +283,22 @@ img {
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
 }
-
 .card-footer button {
   margin-right: 10px;
 }
-
 .card-footer .btn-sm {
   padding: 5px 10px;
 }
-
 .card-footer .btn-outline-primary {
   background-color: #e7f1ff;
 }
-
 .card-footer .btn-primary {
   background-color: #007bff;
   color: white;
 }
-
 .card-footer .btn-outline-success {
   background-color: #d4edda;
 }
-
 .card-footer .btn-outline-warning {
   background-color: #fff3cd;
 }

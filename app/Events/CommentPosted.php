@@ -2,18 +2,15 @@
 
 namespace App\Events;
 
+use App\Models\Comment;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Comment; // Import the Comment model
+use Illuminate\Broadcasting\InteractsWithSockets;
 
 class CommentPosted implements ShouldBroadcast
 {
-    use Dispatchable, SerializesModels;
+    use InteractsWithSockets, SerializesModels;
 
     public $comment;
 
@@ -24,16 +21,6 @@ class CommentPosted implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new Channel('post.' . $this->comment->post_id);  // Broadcasting to a specific post channel
-    }
-
-    public function broadcastWith()
-    {
-        return [
-            'id' => $this->comment->id,
-            'user' => $this->comment->user->name,
-            'content' => $this->comment->content,
-        ];
+        return new Channel('comments.' . $this->comment->post_id);
     }
 }
-
