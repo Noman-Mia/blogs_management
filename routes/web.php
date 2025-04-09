@@ -44,15 +44,7 @@ Route::middleware(SessionAuthenticate::class)->group(function(){
     Route::post('/CreateBlog', [CreateBlogController::class, 'store']); // Form submit
     Route::get('/blogs', [HomeController::class, 'ShowBlogs'])->name('blogs.index');
    
-    // //Profile all routes
-    // Route::post('/create-customer', [CustomerController::class, 'CreateCustomer'])->name('CreateCustomer');
-    // Route::get('/list-customer', [CustomerController::class, 'CustomerList'])->name('CustomerList');
-    // Route::post('/customer-by-id', [CustomerController::class, 'CustomerById'])->name('CustomerById');
-    // Route::post('/update-customer', [CustomerController::class, 'CustomerUpdate'])->name('CustomerUpdate');
-    // Route::get('/delete-customer/{id}', [CustomerController::class, 'CustomerDelete'])->name('CustomerDelete');
-    // Route::get('/CustomerPage', [CustomerController::class, 'CustomerPage'])->name('CustomerPage');
-    // Route::get('/CustomerSavePage', [CustomerController::class, 'CustomerSavePage'])->name('CustomerSavePage');
-
+    
     //Resetpassword page
     Route::get('/reset-password',[UserController::class, 'ResetPasswordPage']);
 
