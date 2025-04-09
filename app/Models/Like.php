@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Like extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'user_id',
+        'post_id',
+    ];
 
     // Relationship to user (belongs to)
     public function user()
@@ -20,4 +24,5 @@ class Like extends Model
     {
         return $this->belongsTo(Post::class);
     }
+   
 }

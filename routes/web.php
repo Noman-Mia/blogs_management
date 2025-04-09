@@ -75,8 +75,10 @@ Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name
 Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 Route::get('/comments/{comment}/edit', [CommentController::class, 'edit'])->name('comments.edit');
 Route::get('/comments/{comment}', [CommentController::class, 'show'])->name('comments.show');
+//like and unlike
+Route::post('/posts/{post}/like', [LikeController::class, 'like'])->name('posts.like');
+Route::delete('/posts/{post}/unlike', [LikeController::class, 'unlike'])->name('posts.unlike');
 
-Route::post('/posts/{postId}/like', [LikeController::class, 'store'])->name('posts.like');
 });
 
 //Pages all routes

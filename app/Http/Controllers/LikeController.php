@@ -1,44 +1,62 @@
 <?php
 // app/Http/Controllers/LikeController.php
-
 namespace App\Http\Controllers;
 
-use App\Models\Like;
 use App\Models\Post;
+use App\Models\Like;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class LikeController extends Controller
 {
-    public function store(Request $request, $postId)
+    public function like(Post $post)
     {
-        $user = Auth::user();
-        $user = $request->user();
+        $email = session()->get('email');
+        $user = User::where('email', $email)->first();
 
-        // Check if the user already liked the post
-        $like = Like::where('post_id', $postId)
-                    ->where('user_id', $user->id)
-                    ->first();
-
-        if ($like) {
-            // User already liked the post, so we remove the like
-            $like->delete();
-        } else {
-            // User hasn't liked the post yet, so we add a like
-            Like::create([
-                'post_id' => $postId,
-                'user_id' => $user->id,
-            ]);
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
         }
 
-        // Reload the updated post with the like count
-        $updatedPost = Post::withCount('likes')->findOrFail($postId);
+        // Check if the user has already liked the post
+        if ($post->likes()->where('user_id', $user->id)->exists()) {
+            return response()->json(['error' => 'Already liked'], 400);
+        }
 
-        // Return the updated post data
-        return Inertia::render('Blogs', [
-            'posts' => Post::with('likes')->get(), // Send all posts with likes
-            'updatedPost' => $updatedPost, // Send the updated post
+        // Create a new like
+        $post->likes()->create([
+            'user_id' => $user->id,
         ]);
+
+        return response()->json(['message' => 'Liked successfully']);
     }
+
+    public function unlike(Post $post)
+    {
+        $email = session()->get('email');
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        // Check if the user has liked the post
+        $like = $post->likes()->where('user_id', $user->id)->first();
+
+        if (!$like) {
+            return response()->json(['error' => 'Not liked yet'], 400);
+        }
+
+        // Delete the like
+        $like->delete();
+
+        return response()->json(['message' => 'Unliked successfully']);
+    }
+    public function getLikes(Post $post)
+    {
+        $likes = $post->likes()->with('user')->get();
+
+        return response()->json($likes);
+    }
+    
 }
