@@ -108,22 +108,14 @@ class UserController extends Controller
         $count = User::where('email',$email)->count();
 
         if($count == 1){
-            // Mail::to($email)->send(new OTPMail($otp));
             User::where('email', $email)->update(['otp' => $otp]);
             $request->session()->put('email', $email);
-            // return response()->json([
-            //     'status' => 'success',
-            //     'message' => "4 Digit {$otp} OTP send successfully",
-            // ],200);
+            
 
             $data = ["message"=>"4 Digit {$otp} OTP send successfully","status"=>true,"error"=>''];
             return redirect('/verify-otp')->with($data);
         }else{
-            // return response()->json([
-            //     'status' => 'fail',
-            //     'message' => 'unauthorized'
-            // ]);
-
+           
             $data = ['message'=>'unauthorized','status'=>false,'error'=>''];
             return redirect('/registration')->with($data);
         }
@@ -139,22 +131,13 @@ class UserController extends Controller
         if($count == 1){
             User::where('email', $email)->update(['otp' => 0]);
 
-            // $token = JWTToken::CreateTokenForSetPassword($request->input('email'));
 
             $request->session()->put('otp_verify','yes');
-
-            // return response()->json([
-            //     'status' => 'success',
-            //     'message' => 'OTP verification successfully',
-            // ],200)->cookie('token', $token, 60 * 24 * 30);
 
             $data = ["message"=>"OTP verification successfully","status"=>true,"error"=>''];
             return redirect('/reset-password')->with($data);
         }else{
-            // return response()->json([
-            //     'status' => 'fail',
-            //     'message' => 'unauthorized'
-            // ]);
+            
             $data = ['message'=> 'unauthorized','status'=>false, 'error'=>''];
             return redirect('/login')->with($data);
         }
@@ -177,16 +160,9 @@ class UserController extends Controller
                 $data = ['message'=> 'Request fail','status'=>false, 'error'=>'' ];
                 return redirect('/reset-password')->with($data);
             }
-            // return response()->json([
-            //     'status' => 'success',
-            //     'message' => 'Password reset successfully',
-            // ],200);
-
+           
         }catch(Exception $e){
-            // return response()->json([
-            //     'status' => 'fail',
-            //     'message' => 'somthing went wrong'
-            // ]);
+           
             $data = ['message'=> $e->getMessage(),'status'=>false, 'error'=>'' ];
             return redirect('/reset-password')->with($data);
         }

@@ -23,4 +23,20 @@ class CommentPosted implements ShouldBroadcast
     {
         return new Channel('comments.' . $this->comment->post_id);
     }
+
+    public function broadcastWith()
+    {
+        return [
+            'id' => $this->comment->id,
+            'post_id' => $this->comment->post_id,
+            'user_id' => $this->comment->user_id,
+            'body' => $this->comment->body,
+            'created_at' => $this->comment->created_at->toDateTimeString(),
+        ];
+    }
+
+    public function broadcastAs()
+    {
+        return 'comment.posted';
+    }
 }

@@ -15,7 +15,7 @@ use App\Http\Middleware\SessionAuthenticate;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/blogs', [HomeController::class, 'blogs'])->name('home');
 
-Route::post('/CreateBlog', [CreateBlogController::class, 'store']); // Form submit
+Route::post('/CreateBlog', [CreateBlogController::class, 'store']); 
 Route::get('/ShowBlogs', [HomeController::class, 'ShowBlogs'])->name('ShowBlogs'); // Form
 Route::get('/blogs', [CreateBlogController::class, 'index'])->name('blogs.index');
 
@@ -61,7 +61,7 @@ Route::delete('/bookmarks/{post}', [BookmarkController::class, 'destroy']);
 Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks');
 
 
-//comment all routes
+
 // Store a new comment for a post
 Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
 Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
