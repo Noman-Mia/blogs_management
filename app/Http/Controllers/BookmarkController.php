@@ -2,60 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bookmark;
 use App\Models\Post;
+use App\Models\User;
+use App\Models\Bookmark;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class BookmarkController extends Controller
 {
-  
-    public function store(Request $request)
-{
-    $request->validate([
-        'post_id' => 'required|exists:posts,id',
-    ]);
+    public function toggle(Request $request, Post $post)
+    {
+        $user = User::find(session('LoggedUser')); // Or use auth()->user();
+        $bookmark = Bookmark::where('user_id', $user->id)->where('post_id', $post->id)->first();
 
-    $user_id = session('user_id');
-    
-    $existing = Bookmark::where('user_id', $user_id)
-        ->where('post_id', $request->post_id)
-        ->first();
-
-    if ($existing) {
-        return redirect()->back()->with('message', 'Bookmarked already!');
+        if ($bookmark) {
+            $bookmark->delete();
+            return back()->with('success', 'Bookmark removed');
+        } else {
+            Bookmark::create([
+                'user_id' => $user->id,
+                'post_id' => $post->id,
+            ]);
+            return back()->with('success', 'Post bookmarked');
+        }
     }
 
-    $bookmark = Bookmark::create([
-        'user_id' => $user_id,
-        'post_id' => $request->post_id,
-    ]);
-
-    return redirect()->back()->with('message', 'Bookmark added successfully!');
-}
-    public function index()
+    public function bookmarkedPosts()
     {
-        $user_id = session('user_id');
-        $bookmarks = Bookmark::where('user_id', $user_id)
-            ->with('post') 
-            ->get();
+        $user = User::find(session('LoggedUser')); // Or use auth()->user();
+        
+        $bookmarkedPosts = $user->bookmarks()
+            ->with(['post.user'])
+            ->latest()
+            ->paginate(5); // Or simplePaginate if needed
 
-        return Inertia::render('Bookmarks', [
-            'bookmarks' => $bookmarks
+        return Inertia::render('Bookmarks/Index', [
+            'bookmarkedPosts' => $bookmarkedPosts,
+            'LoggedUser' => $user,
         ]);
     }
-    // Remove a bookmark
-    public function destroy($id)
-    {
-        $user_id = session('user_id');
-        $bookmark = Bookmark::where('id', $id)
-            ->where('user_id', $user_id)
-            ->firstOrFail();
-
-        $bookmark->delete();
-
-        return redirect()->back()->with('message', 'Bookmark removed successfully!');
-    }
-   
 }
